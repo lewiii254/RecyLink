@@ -1,0 +1,14 @@
+# Dependencies
+/node_modules
+/client/node_modules
+/server/node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment
+.env
+.DS_Store
