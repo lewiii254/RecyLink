@@ -1,3 +1,4 @@
+import { Trophy } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -12,6 +13,8 @@ import {
   CheckCircle,
 } from "lucide-react";
 import LoadingSpinner from "../components/LoadingSpinner";
+import SuiConnect from "../components/SuiConnect";
+import { rewardsAPI } from "../utils/api";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -23,10 +26,27 @@ const Dashboard = () => {
     collectedReports: 0,
     pendingReports: 0,
   });
+  const [leaders, setLeaders] = useState([]);
+  const [leadersLoading, setLeadersLoading] = useState(true);
 
   useEffect(() => {
     fetchReports();
+    fetchLeaders();
   }, []);
+
+  const fetchLeaders = async (limit = 3) => {
+    setLeadersLoading(true);
+    try {
+      const res = await rewardsAPI.getLeaderboard(limit);
+      if (res.data.success) {
+        setLeaders(res.data.leaderboard || []);
+      }
+    } catch (err) {
+      console.error("Failed to load leaderboard", err);
+    } finally {
+      setLeadersLoading(false);
+    }
+  };
 
   const fetchReports = async () => {
     try {
@@ -339,6 +359,61 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
+            </div>
+
+            {/* Top Contributors (small leaderboard widget) */}
+            <div className="card">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Top Contributors
+              </h3>
+              {leadersLoading ? (
+                <div className="flex items-center justify-center py-6">
+                  <div className="w-6 h-6 border-2 border-gray-300 border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : leaders.length === 0 ? (
+                <div className="text-sm text-gray-600">No contributors yet</div>
+              ) : (
+                <ol className="space-y-3">
+                  {leaders.map((l) => (
+                    <li
+                      key={l.id}
+                      className={`flex items-center justify-between ${
+                        l.id === user.id ? "bg-yellow-50 rounded-md p-2" : ""
+                      }`}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                          <Trophy className="w-4 h-4 text-primary-600" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {l.username}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {l.reportsCount} reports
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-sm font-semibold text-gray-900">
+                        {l.points}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </div>
+
+            {/* Sui Demo */}
+            <div className="card">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Sui Demo
+              </h3>
+              <div className="text-sm text-gray-600 mb-3">
+                Connect a Sui wallet (demo) to see how RecyLink can link public
+                wallet addresses, mint proof-of-participation badges, and record
+                small on-chain receipts for transparency.
+              </div>
+              <SuiConnect />
             </div>
           </div>
         </div>

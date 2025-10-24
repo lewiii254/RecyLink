@@ -60,4 +60,39 @@
   .status-collected {
     @apply bg-green-100 text-green-800;
   }
+  /* Simple reveal animation for on-scroll elements */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px) scale(0.995);
+    transition: opacity 600ms cubic-bezier(.2,.9,.2,1), transform 600ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Floating accent used in hero */
+  @keyframes floatY {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+  }
+
+  .float {
+    animation: floatY 4s ease-in-out infinite;
+  }
+
+  /* Subtle pulse for CTA */
+  @keyframes pulseBorder {
+    0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.08); }
+    70% { box-shadow: 0 0 0 10px rgba(99,102,241,0); }
+    100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+  }
+
+  .btn-cta {
+    @apply bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold;
+    animation: pulseBorder 2.6s infinite;
+  }
 }
