@@ -157,6 +157,86 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900">
+              Why RecyLink Matters
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-2">
+              RecyLink connects citizens, community groups and local authorities
+              to report, verify, and resolve waste issues — and rewards
+              participation.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="card reveal">
+              <h3 className="font-semibold text-lg mb-2">For Individuals</h3>
+              <p className="text-sm text-gray-600">
+                Earn points for submitting and verifying reports, track your
+                impact, and build reputation in your community.
+              </p>
+            </div>
+            <div className="card reveal">
+              <h3 className="font-semibold text-lg mb-2">
+                For Communities & NGOs
+              </h3>
+              <p className="text-sm text-gray-600">
+                Coordinate cleanups, validate issues quickly, and demonstrate
+                impact to donors with transparent logs.
+              </p>
+            </div>
+            <div className="card reveal">
+              <h3 className="font-semibold text-lg mb-2">
+                For Municipalities & Businesses
+              </h3>
+              <p className="text-sm text-gray-600">
+                Receive verified reports with photos and locations, prioritize
+                resources, and show accountability to citizens.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-semibold text-gray-900">
+              Partners & Supporters
+            </h3>
+            <p className="text-gray-600 mt-2">
+              We partner with local councils, NGOs and eco-minded businesses to
+              scale cleanups and rewards.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
+            {[
+              "City Council",
+              "Green NGO",
+              "Recycling Co",
+              "Local Business",
+            ].map((p) => (
+              <div
+                key={p}
+                className="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-center"
+              >
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full mx-auto mb-2 flex items-center justify-center">
+                    🏙️
+                  </div>
+                  <div className="text-sm font-medium text-gray-900">{p}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Short Sui integration mention with CTA */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
