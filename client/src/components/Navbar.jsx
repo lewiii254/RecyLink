@@ -1,15 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
-import { LogOut, User, MapPin, Plus, BarChart3 } from 'lucide-react'
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { LogOut, User, MapPin, Plus, BarChart3 } from "lucide-react";
 
 const Navbar = () => {
-  const { user, logout, isAdmin } = useAuth()
-  const navigate = useNavigate()
+  const { user, logout, isAdmin } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout()
-    navigate('/')
-  }
+    await logout();
+    navigate("/");
+  };
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200">
@@ -25,29 +25,35 @@ const Navbar = () => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               Home
             </Link>
-            
+
             {user && (
               <>
-                <Link 
-                  to="/dashboard" 
+                <Link
+                  to="/dashboard"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Dashboard
                 </Link>
-                <Link 
-                  to="/reports" 
+                <Link
+                  to="/reports"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Reports
                 </Link>
-                <Link 
-                  to="/reports/new" 
+                <Link
+                  to="/leaderboard"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Leaderboard
+                </Link>
+                <Link
+                  to="/reports/new"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   New Report
@@ -74,7 +80,9 @@ const Navbar = () => {
                     <User className="w-4 h-4 text-gray-600" />
                   </div>
                   <div className="hidden sm:block">
-                    <p className="text-sm font-medium text-gray-900">{user.username}</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {user.username}
+                    </p>
                     {isAdmin && (
                       <p className="text-xs text-primary-600">Admin</p>
                     )}
@@ -91,10 +99,7 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <Link
-                to="/auth"
-                className="btn btn-primary"
-              >
+              <Link to="/auth" className="btn btn-primary">
                 Sign In
               </Link>
             )}
@@ -102,7 +107,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

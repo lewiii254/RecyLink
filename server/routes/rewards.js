@@ -1,5 +1,6 @@
 const express = require('express');
 const RewardLog = require('../models/RewardLog');
+const User = require('../models/User');
 const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
@@ -71,3 +72,32 @@ router.get('/stats', authenticateToken, async (req, res) => {
 });
 
 module.exports = router;
+
+// Leaderboard endpoint: GET /api/rewards/leaderboard?limit=10
+// Returns top users by points with basic profile info
+router.get('/leaderboard', async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit || '10', 10), 50);
+
+    const topUsers = await User.find({})
+      .select('username points reportsMade role')
+      .sort({ points: -1 })
+      .limit(limit)
+      .lean();
+
+    // Add rank and reports count
+    const leaderboard = topUsers.map((u, idx) => ({
+      rank: idx + 1,
+      id: u._id,
+      username: u.username,
+      points: u.points || 0,
+      reportsCount: Array.isArray(u.reportsMade) ? u.reportsMade.length : 0,
+      role: u.role || 'user'
+    }));
+
+    res.json({ success: true, leaderboard });
+  } catch (error) {
+    console.error('Leaderboard error:', error);
+    res.status(500).json({ success: false, message: 'Server error while fetching leaderboard' });
+  }
+});

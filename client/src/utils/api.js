@@ -59,6 +59,7 @@ export const adminAPI = {
 export const rewardsAPI = {
   getHistory: () => api.get('/rewards/history'),
   getStats: () => api.get('/rewards/stats'),
+  getLeaderboard: (limit = 10) => api.get(`/rewards/leaderboard?limit=${limit}`),
 }
 
 export default api

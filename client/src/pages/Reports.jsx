@@ -20,6 +20,7 @@ const Reports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [verifying, setVerifying] = useState(null);
+  const [collecting, setCollecting] = useState(null);
   const [filters, setFilters] = useState({
     status: "all",
     search: "",
@@ -59,6 +60,32 @@ const Reports = () => {
       toast.error(message);
     } finally {
       setVerifying(null);
+    }
+  };
+
+  const handleCollect = async (reportId) => {
+    if (!isAdmin) return;
+    if (
+      !window.confirm(
+        "Mark this report as collected? This will award points to the reporter."
+      )
+    )
+      return;
+    setCollecting(reportId);
+    try {
+      const response = await reportsAPI.collect(reportId);
+      if (response.data.success) {
+        toast.success(response.data.message || "Report marked as collected");
+        fetchReports();
+        // Refresh user data in case points were updated for the reporter
+        await refreshUser();
+      }
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Failed to mark collected";
+      toast.error(message);
+    } finally {
+      setCollecting(null);
     }
   };
 
@@ -263,6 +290,22 @@ const Reports = () => {
                             <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                           ) : (
                             <CheckCircle className="w-4 h-4" />
+                          )}
+                        </button>
+                      )}
+
+                      {/* Admin: Collect action */}
+                      {isAdmin && report.status !== "Collected" && (
+                        <button
+                          onClick={() => handleCollect(report._id)}
+                          disabled={collecting === report._id}
+                          className="p-1 text-green-600 hover:text-green-700 disabled:opacity-50"
+                          title="Mark as collected"
+                        >
+                          {collecting === report._id ? (
+                            <div className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+                          ) : (
+                            <Award className="w-4 h-4" />
                           )}
                         </button>
                       )}
