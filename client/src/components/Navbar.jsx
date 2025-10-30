@@ -41,10 +41,22 @@ const Navbar = () => {
                   Dashboard
                 </Link>
                 <Link
+                  to="/profile"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Profile
+                </Link>
+                <Link
                   to="/reports"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Reports
+                </Link>
+                <Link
+                  to="/community"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Community
                 </Link>
                 <Link
                   to="/leaderboard"

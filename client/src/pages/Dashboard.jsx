@@ -15,8 +15,6 @@ import {
 import LoadingSpinner from "../components/LoadingSpinner";
 import SuiConnect from "../components/SuiConnect";
 import { rewardsAPI } from "../utils/api";
-import Badges from "../components/Badges";
-import ActivityFeed from "../components/ActivityFeed";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -340,14 +338,14 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Badges */}
+            {/* Profile shortcut (moved badges & activity to profile page) */}
             <div className="card">
-              <Badges points={user.points} />
-            </div>
-
-            {/* Recent Activity */}
-            <div className="card">
-              <ActivityFeed />
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Profile</h3>
+              <div className="text-sm text-gray-600 mb-4">Your badges and recent activity are now on your Profile page.</div>
+              <div className="flex space-x-2">
+                <Link to="/profile" className="btn btn-primary">View Profile</Link>
+                <Link to="/dashboard" className="btn btn-outline">Dashboard</Link>
+              </div>
             </div>
 
             {/* Tips */}

@@ -62,4 +62,12 @@ export const rewardsAPI = {
   getLeaderboard: (limit = 10) => api.get(`/rewards/leaderboard?limit=${limit}`),
 }
 
+export const communityAPI = {
+  getPosts: (page = 1, limit = 10) => api.get(`/community/posts?page=${page}&limit=${limit}`),
+  createPost: (content) => api.post('/community/posts', { content }),
+  likePost: (id) => api.post(`/community/posts/${id}/like`),
+  commentPost: (id, text) => api.post(`/community/posts/${id}/comment`, { text }),
+  deletePost: (id) => api.delete(`/community/posts/${id}`),
+}
+
 export default api
