@@ -30,6 +30,51 @@ const Reports = () => {
     fetchReports();
   }, []);
 
+  const handleExportCSV = async () => {
+    try {
+      const res = await reportsAPI.getAll();
+      if (!res.data.success) {
+        toast.error("Failed to fetch reports for export");
+        return;
+      }
+
+      const rows = res.data.reports.map((r) => ({
+        id: r._id,
+        title: r.title,
+        description: r.description.replace(/\n/g, " "),
+        status: r.status,
+        reporter: r.reporter.username || r.reporter,
+        createdAt: r.createdAt,
+      }));
+
+      const csvHeader = Object.keys(rows[0] || {}).join(",") + "\n";
+      const csvBody = rows
+        .map((r) =>
+          Object.values(r)
+            .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+            .join(",")
+        )
+        .join("\n");
+      const csv = csvHeader + csvBody;
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `recylink_reports_${new Date()
+        .toISOString()
+        .slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast.success("Export started");
+    } catch (err) {
+      console.error("Export error", err);
+      toast.error("Failed to export reports");
+    }
+  };
+
   const fetchReports = async () => {
     try {
       const response = await reportsAPI.getAll();
@@ -154,10 +199,15 @@ const Reports = () => {
                   : "Track the status of your waste reports"}
               </p>
             </div>
-            <Link to="/reports/new" className="btn btn-primary">
-              <Plus className="w-4 h-4 mr-2" />
-              New Report
-            </Link>
+            <div className="flex items-center space-x-3">
+              <button onClick={handleExportCSV} className="btn btn-outline">
+                Export CSV
+              </button>
+              <Link to="/reports/new" className="btn btn-primary">
+                <Plus className="w-4 h-4 mr-2" />
+                New Report
+              </Link>
+            </div>
           </div>
         </div>
 

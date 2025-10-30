@@ -15,6 +15,8 @@ import {
 import LoadingSpinner from "../components/LoadingSpinner";
 import SuiConnect from "../components/SuiConnect";
 import { rewardsAPI } from "../utils/api";
+import Badges from "../components/Badges";
+import ActivityFeed from "../components/ActivityFeed";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -336,6 +338,16 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Badges */}
+            <div className="card">
+              <Badges points={user.points} />
+            </div>
+
+            {/* Recent Activity */}
+            <div className="card">
+              <ActivityFeed />
             </div>
 
             {/* Tips */}
