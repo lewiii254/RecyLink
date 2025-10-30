@@ -340,11 +340,19 @@ const Dashboard = () => {
 
             {/* Profile shortcut (moved badges & activity to profile page) */}
             <div className="card">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Profile</h3>
-              <div className="text-sm text-gray-600 mb-4">Your badges and recent activity are now on your Profile page.</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                Profile
+              </h3>
+              <div className="text-sm text-gray-600 mb-4">
+                Your badges and recent activity are now on your Profile page.
+              </div>
               <div className="flex space-x-2">
-                <Link to="/profile" className="btn btn-primary">View Profile</Link>
-                <Link to="/dashboard" className="btn btn-outline">Dashboard</Link>
+                <Link to="/profile" className="btn btn-primary">
+                  View Profile
+                </Link>
+                <Link to="/dashboard" className="btn btn-outline">
+                  Dashboard
+                </Link>
               </div>
             </div>
 

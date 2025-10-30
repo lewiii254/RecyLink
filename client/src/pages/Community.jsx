@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { communityAPI } from '../utils/api';
-import CommunityPost from '../components/CommunityPost';
-import { useAuth } from '../contexts/AuthContext';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { useEffect, useState } from "react";
+import { communityAPI } from "../utils/api";
+import CommunityPost from "../components/CommunityPost";
+import { useAuth } from "../contexts/AuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Community = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -26,7 +26,7 @@ const Community = () => {
         setTotal(res.data.total || 0);
       }
     } catch (err) {
-      console.error('Failed to load posts', err);
+      console.error("Failed to load posts", err);
     } finally {
       setLoading(false);
     }
@@ -41,10 +41,10 @@ const Community = () => {
       if (res.data.success) {
         // prepend new post
         setPosts((p) => [res.data.post, ...p]);
-        setContent('');
+        setContent("");
       }
     } catch (err) {
-      console.error('Create post failed', err);
+      console.error("Create post failed", err);
     } finally {
       setSubmitting(false);
     }
@@ -55,11 +55,17 @@ const Community = () => {
   };
 
   const handleLikeToggled = (id, likesCount, likedByUser) => {
-    setPosts((p) => p.map((x) => (x._id === id ? { ...x, likesCount, likedByUser } : x)));
+    setPosts((p) =>
+      p.map((x) => (x._id === id ? { ...x, likesCount, likedByUser } : x))
+    );
   };
 
   const handleCommentAdded = (id, comment) => {
-    setPosts((p) => p.map((x) => (x._id === id ? { ...x, commentsCount: (x.commentsCount || 0) + 1 } : x)));
+    setPosts((p) =>
+      p.map((x) =>
+        x._id === id ? { ...x, commentsCount: (x.commentsCount || 0) + 1 } : x
+      )
+    );
   };
 
   return (
@@ -67,7 +73,9 @@ const Community = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <h1 className="text-2xl font-bold">Community Feed</h1>
-          <p className="text-gray-600">Share updates, tips, and coordinate cleanups with neighbors.</p>
+          <p className="text-gray-600">
+            Share updates, tips, and coordinate cleanups with neighbors.
+          </p>
         </div>
 
         {user ? (
@@ -80,13 +88,18 @@ const Community = () => {
               placeholder="What's happening in your neighborhood?"
             />
             <div className="mt-3 flex justify-end">
-              <button className="btn btn-primary" disabled={submitting || !content.trim()}>
+              <button
+                className="btn btn-primary"
+                disabled={submitting || !content.trim()}
+              >
                 Post
               </button>
             </div>
           </form>
         ) : (
-          <div className="mb-6 text-sm text-gray-600">Sign in to post and interact with the community.</div>
+          <div className="mb-6 text-sm text-gray-600">
+            Sign in to post and interact with the community.
+          </div>
         )}
 
         {loading ? (
@@ -94,7 +107,9 @@ const Community = () => {
             <LoadingSpinner />
           </div>
         ) : posts.length === 0 ? (
-          <div className="text-center py-16 text-gray-600">No posts yet — be the first to share!</div>
+          <div className="text-center py-16 text-gray-600">
+            No posts yet — be the first to share!
+          </div>
         ) : (
           <div className="space-y-4">
             {posts.map((p) => (
@@ -113,10 +128,18 @@ const Community = () => {
         <div className="mt-6 flex justify-between items-center">
           <div className="text-sm text-gray-600">Showing page {page}</div>
           <div className="space-x-2">
-            <button className="btn btn-outline" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
+            <button
+              className="btn btn-outline"
+              disabled={page <= 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
               Prev
             </button>
-            <button className="btn btn-outline" disabled={posts.length === 0} onClick={() => setPage((p) => p + 1)}>
+            <button
+              className="btn btn-outline"
+              disabled={posts.length === 0}
+              onClick={() => setPage((p) => p + 1)}
+            >
               Next
             </button>
           </div>
